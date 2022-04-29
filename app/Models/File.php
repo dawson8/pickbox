@@ -16,6 +16,19 @@ class File extends Model
         'path'
     ];
 
+    public function sizeForHumans()
+    {
+        $bytes = $this->size;
+
+        $units = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];
+
+        for ($i = 0; $bytes > 1024; $i++) {
+            $bytes /= 1024;
+        }
+
+        return round($bytes, 2) . $units[$i];
+    }
+
     public static function booted()
     {
         static::creating(function ($model) {

@@ -103,7 +103,7 @@
                             </td>
                             <td class="py-2 px-3">
                                 @if ($child->objectable_type === 'file')
-                                    {{ $child->objectable->size }}
+                                    {{ $child->objectable->sizeForHumans() }}
                                 @else
                                     &mdash;
                                 @endif
