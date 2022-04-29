@@ -23,8 +23,20 @@ class FileBrowser extends Component
     ];
     public $showingFileUploadForm = false;
 
+    public $confirmingObjectDeletion;
+
+    public function deleteObject ()
+    {
+        Obj::forCurrentTeam()->find($this->confirmingObjectDeletion)->delete();
+
+        $this->confirmingObjectDeletion = null;
+
+        $this->object = $this->object->fresh();
+    }
+
     public function updatedUpload($upload)
     {
+        fdd('l');
         $object = $this->currentTeam->objects()->make(['parent_id' => $this->object->id]);
         $object->objectable()->associate(
             $this->currentTeam->files()->create([
