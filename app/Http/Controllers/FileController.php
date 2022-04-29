@@ -14,9 +14,9 @@ class FileController extends Controller
 
     public function index(Request $request)
     {
-        $object = Obj::where('team_id', $request->user()->currentTeam->id)->where(
-            'uuid', $request->get('uuid', Obj::where('team_id', $request->user()
-            ->currentTeam->id)->whereNull('parent_id')->first()->uuid)
+        $object = Obj::forCurrentTeam()->where(
+            'uuid', $request->get('uuid', Obj::forCurrentTeam()
+            ->whereNull('parent_id')->first()->uuid)
         )
             ->firstOrFail();
 
