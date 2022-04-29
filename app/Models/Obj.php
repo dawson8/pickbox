@@ -23,6 +23,11 @@ class Obj extends Model
         static::creating(function ($model) {
             $model->uuid = Str::uuid();
         });
+
+        static::deleting(function ($model) {
+            optional($model->objectable)->delete();
+            $model->descendants->each->delete();
+        });
     }
 
     public function objectable()

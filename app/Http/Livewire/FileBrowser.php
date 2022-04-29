@@ -36,7 +36,6 @@ class FileBrowser extends Component
 
     public function updatedUpload($upload)
     {
-        fdd('l');
         $object = $this->currentTeam->objects()->make(['parent_id' => $this->object->id]);
         $object->objectable()->associate(
             $this->currentTeam->files()->create([
