@@ -17,6 +17,7 @@ class FileBrowser extends Component
     public $renamingObjectState = [
         'name' => ''
     ];
+    public $showingFileUploadForm = false;
 
     public function renameObject()
     {

@@ -9,7 +9,7 @@
                 <button class="bg-gray-200 px-6 h-12 rounded-lg mr-2" wire:click.prevent="$set('creatingNewFolder', true)">
                     New folder
                 </button>
-                <button class="bg-blue-600 text-white px-6 h-12 rounded-lg mr-2 font-bold">
+                <button class="bg-blue-600 text-white px-6 h-12 rounded-lg mr-2 font-bold" wire:click.prevent="$set('showingFileUploadForm', true)">
                     Upload Files
                 </button>
             </div>
@@ -135,4 +135,27 @@
             <div class="p-3 text-gray-700">This folder is empty</div>
         @endif
     </div>
+
+    <x-jet-modal wire:model="showingFileUploadForm">
+        <div
+            wire:ignore
+            class="m-3 border-dashed border-2"
+            x-data="{
+                initFilepond () {
+                    const pond = FilePond.create(this.$refs.filepond, {
+                        server: {
+                            process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                                //
+                            }
+                        }
+                    })
+                }
+            }"
+            x-init="initFilepond"
+        >
+            <div>
+                <input type="file" x-ref="filepond" multiple />
+            </div>
+        </div>
+    </x-jet-modal>
 </div>
