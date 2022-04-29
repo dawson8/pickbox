@@ -144,8 +144,8 @@
                 initFilepond () {
                     const pond = FilePond.create(this.$refs.filepond, {
                         server: {
-                            process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
-                                //
+                            process: (fieldName, file, metdata, load, error, progress, abort, transfer, options) => {
+                                @this.upload('upload', file, load, error, progress)
                             }
                         }
                     })

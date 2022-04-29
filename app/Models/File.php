@@ -12,7 +12,8 @@ class File extends Model
 
     protected $fillable = [
         'name',
-        'size'
+        'size',
+        'path'
     ];
 
     public static function booted()
