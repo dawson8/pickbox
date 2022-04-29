@@ -143,6 +143,14 @@
             x-data="{
                 initFilepond () {
                     const pond = FilePond.create(this.$refs.filepond, {
+                        onprocessfile: (error, file) => {
+                            pond.removeFile(file.id)
+
+                            if (pond.getFiles().length === 0) {
+                                @this.set('showingFileUploadForm', false)
+                            }
+                        },
+                        allowRevert: false,
                         server: {
                             process: (fieldName, file, metdata, load, error, progress, abort, transfer, options) => {
                                 @this.upload('upload', file, load, error, progress)
