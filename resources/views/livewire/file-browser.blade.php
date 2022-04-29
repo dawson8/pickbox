@@ -2,7 +2,7 @@
     <div class="flex flex-wrap items-center justify-between mb-4">
         <div class="flex-grow md:mr-3 mt-4 md:mt-0 w-full md:w-auto order-3 md:order-1">
             <input type="search" placeholder="Search files and folders"
-                class="w-full px-3 h-12 border-2 border-gray-200 rounded-lg" />
+                class="w-full px-3 h-12 border-2 border-gray-200 rounded-lg" wire:model="query" />
         </div>
         <div class="order-2">
             <div>
@@ -19,17 +19,24 @@
     <div class="border-2 border-gray-200 rounded-lg">
         <div class="py-2 px-3">
             <div class="flex items-center">
-                @foreach ($ancestors as $ancestor)
-                    <a href="{{ route('files', ['uuid' => $ancestor->uuid]) }}" class="font-bold text-gray-400">
-                        {{ $ancestor->objectable->name }}
-                    </a>
+                @if ($this->query)
+                    <div class="font-bold text-gray-400">
+                        Found {{ $this->results->count() }} {{ Str::plural('result', $this->results->count()) }}.
+                        <button class="text-blue-700 font-bold" wire:click="$set('query', null)">Clear search</button>
+                    </div>
+                @else
+                    @foreach ($ancestors as $ancestor)
+                        <a href="{{ route('files', ['uuid' => $ancestor->uuid]) }}" class="font-bold text-gray-400">
+                            {{ $ancestor->objectable->name }}
+                        </a>
 
-                    @if (!$loop->last)
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-300 h-5 w-5 mx-1" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    @endif
-                @endforeach
+                        @if (!$loop->last)
+                            <svg xmlns="http://www.w3.org/2000/svg" class="text-gray-300 h-5 w-5 mx-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        @endif
+                    @endforeach
+                @endif
             </div>
         </div>
 
@@ -63,7 +70,7 @@
                             <td></td>
                         </tr>
                     @endif
-                    @foreach ($object->children as $child)
+                    @foreach ($this->results as $child)
                         <tr class="border-gray-100 @if (!$loop->last) border-b-2 @endif hover:bg-gray-100">
                             <td class="py-2 px-3 flex items-center">
                                 @if ($child->objectable_type === 'file')
@@ -131,7 +138,7 @@
             </table>
         </div>
 
-        @if($object->children->count() === 0)
+        @if($this->results->count() === 0)
             <div class="p-3 text-gray-700">This folder is empty</div>
         @endif
     </div>

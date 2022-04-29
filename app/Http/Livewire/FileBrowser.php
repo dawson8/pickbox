@@ -10,6 +10,7 @@ class FileBrowser extends Component
 {
     use WithFileUploads;
 
+    public $query;
     public $upload;
     public $object;
     public $ancestors;
@@ -24,6 +25,15 @@ class FileBrowser extends Component
     public $showingFileUploadForm = false;
 
     public $confirmingObjectDeletion;
+
+    public function getResultsProperty()
+    {
+        if (strlen($this->query)) {
+            return Obj::search($this->query)->where('team_id', $this->currentTeam->id)->get();
+        }
+
+        return $this->object->children;
+    }
 
     public function deleteObject ()
     {

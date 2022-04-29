@@ -33,6 +33,16 @@ class Obj extends Model
         });
     }
 
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'team_id' => $this->team_id,
+            'name' => $this->objectable->name,
+            'path' => $this->ancestorsAndSelf->pluck('objectable.name')->reverse()->join('/')
+        ];
+    }
+
     public function objectable()
     {
         return $this->morphTo();
