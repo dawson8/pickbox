@@ -19,6 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/files', [FileController::class, 'index'])->name('files');
+Route::get('/files/{file}', [FileController::class, 'download'])->name('files.download');
 
 Route::middleware([
     'auth:sanctum',
